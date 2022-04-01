@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hotrace.h                                          :+:      :+:    :+:   */
+/*   hash.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 12:46:37 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/01 19:02:01 by mkamei           ###   ########.fr       */
+/*   Created: 2022/04/01 17:20:33 by mkamei            #+#    #+#             */
+/*   Updated: 2022/04/01 17:21:24 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HOTRACE_H
-# define HOTRACE_H
+#include "hotrace.h"
 
-# include "mylibft.h"
-# include <unistd.h>
-# include <errno.h>
-# include <string.h>
-
-# define HTABLE_SIZE 1000
-
-typedef enum e_statuss
+size_t	hash_func(const char *str)
 {
-	SUCCESS	= 0,
-	ERROR	= 1
-}			t_status;
+	int		i;
+	size_t	htable_index;
 
-t_status	store_htable_step(t_dict **htable);
-t_status	search_htable_step(t_dict **htable);
-size_t		hash_func(const char *str);
-
-#endif /* HOTRACE_H */
+	i = 0;
+	htable_index = 0;
+	while (str[i])
+	{
+		htable_index = (htable_index + str[i]) % HTABLE_SIZE;
+		i++;
+	}
+	return (htable_index);
+}

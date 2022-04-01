@@ -3,23 +3,24 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/23 23:37:22 by hyoshie           #+#    #+#              #
-#    Updated: 2022/04/01 12:45:44 by hyoshie          ###   ########.fr        #
+#    Updated: 2022/04/01 18:44:32 by mkamei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	hotrace
+CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
-INCLUDES	=	-I./inc
+INCLUDES	=	-I./inc -I$(LIBFT_DIR)
 
 LIBFT_DIR	=	libft
 OBJDIR		=	./obj
 
 VPATH		=	src
 
-SRCS		=	main.c
+SRCS		=	main.c hash.c search_htable.c store_htable.c
 
 OBJS		=	$(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 
@@ -27,16 +28,16 @@ DEPS		=	$(OBJS:.o=.d)
 
 LIBS 		=	-L$(LIBFT_DIR) -lft
 
-$(OBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
-
-# -include $(DPS)
-
 all: $(OBJDIR) $(NAME)
 
 $(NAME): $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS) 
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
+
+$(OBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
+
+-include $(DEPS)
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
