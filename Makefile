@@ -6,13 +6,13 @@
 #    By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/23 23:37:22 by hyoshie           #+#    #+#              #
-#    Updated: 2022/04/01 15:05:59 by hyoshie          ###   ########.fr        #
+#    Updated: 2022/04/01 15:09:13 by hyoshie          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	hotrace
 CFLAGS		=	-Wall -Wextra -Werror
-INCLUDES	=	-I./inc
+INCLUDES	=	-I./inc -I./libft
 
 LIBFT_DIR	=	libft
 OBJDIR		=	./obj

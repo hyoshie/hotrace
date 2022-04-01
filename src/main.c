@@ -6,12 +6,11 @@
 /*   By: hyoshie <hyoshie@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:42:48 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/01 15:06:59 by hyoshie          ###   ########.fr       */
+/*   Updated: 2022/04/01 15:11:19 by hyoshie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/hotrace.h"
-#include "../libft/mylibft.h"
+#include "hotrace.h"
 
 void	read_stdin(t_list **kvl_lines, t_list **key_to_search)
 {
@@ -77,6 +76,5 @@ int	main(void)
 	read_stdin(&kvl_lines, &key_to_search);
 	kvl_dammy = store_kvl(kvl_lines);
 	print_value(kvl_dammy, key_to_search);
-	// print_dict(kvl_dammy);
 	return (0);
 }
