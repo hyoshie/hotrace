@@ -6,75 +6,55 @@
 /*   By: hyoshie <hyoshie@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:42:48 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/01 15:11:19 by hyoshie          ###   ########.fr       */
+/*   Updated: 2022/04/01 16:24:33 by hyoshie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hotrace.h"
 
-void	read_stdin(t_list **kvl_lines, t_list **key_to_search)
+t_dict	*store_kvl_data(void)
 {
-	char	*line;
-
-	*kvl_lines = NULL;
-	while (get_next_line(STDIN_FILENO, &line) > 0 && *line != '\0')
-	{
-		ft_lstadd_back(kvl_lines, ft_lstnew(line));
-	}
-	*key_to_search = NULL;
-	while (get_next_line(STDIN_FILENO, &line) > 0)
-	{
-		ft_lstadd_back(key_to_search, ft_lstnew(line));
-	}
-}
-
-t_dict	*store_kvl(t_list *kvl_lines)
-{
+	char	*key;
+	char	*value;
 	t_dict	*kvl_dammy;
-	t_dict	*new;
 
-	if (kvl_lines == NULL || kvl_lines->next == NULL)
-		return (NULL);
 	kvl_dammy = dict_new(NULL, NULL);
-	while (kvl_lines != NULL && kvl_lines->next != NULL)
+	while (42)
 	{
-		new = dict_new(kvl_lines->content, kvl_lines->next->content);
-		dict_addback(kvl_dammy, new);
-		kvl_lines = kvl_lines->next->next;
+		if (get_next_line(STDIN_FILENO, &key) > 0 && key[0] != '\0' && \
+			get_next_line(STDIN_FILENO, &value) > 0 && value[0] != '\0')
+			dict_addback(kvl_dammy, dict_new(key, value));
+		else
+			break ;
 	}
 	return (kvl_dammy);
 }
 
-void	print_value(t_dict *kvl_dammy, t_list *key_to_search)
+void	search_and_print(t_dict *kvl_dammy)
 {
-	char	*target_value;
+	char	*search_word;
+	char	*result;
 
-	if (kvl_dammy == NULL || key_to_search == NULL)
-		return ;
-	while (key_to_search != NULL)
+	while (get_next_line(STDIN_FILENO, &search_word) > 0)
 	{
-		target_value = dict_get_value(key_to_search->content, kvl_dammy);
-		if (target_value != NULL)
+		result = dict_get_value(search_word, kvl_dammy);
+		if (result != NULL)
 		{
-			ft_putendl_fd(target_value, STDOUT_FILENO);
+			ft_putendl_fd(result, STDOUT_FILENO);
 		}
 		else
 		{
-			ft_putstr_fd(key_to_search->content, STDOUT_FILENO);//STDERR_FILENO?
+			ft_putstr_fd(search_word, STDOUT_FILENO);//STDERR_FILENO?
 			ft_putendl_fd(": Not found.", STDOUT_FILENO);//STDERR_FILENO?
 		}
-		key_to_search = key_to_search->next;
 	}
 }
 
 int	main(void)
 {
-	t_list	*kvl_lines;
-	t_list	*key_to_search;
 	t_dict	*kvl_dammy;
 
-	read_stdin(&kvl_lines, &key_to_search);
-	kvl_dammy = store_kvl(kvl_lines);
-	print_value(kvl_dammy, key_to_search);
+	kvl_dammy = store_kvl_data();
+	search_and_print(kvl_dammy);
 	return (0);
 }
