@@ -6,7 +6,7 @@
 #    By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/23 23:37:22 by hyoshie           #+#    #+#              #
-#    Updated: 2022/04/01 12:45:44 by hyoshie          ###   ########.fr        #
+#    Updated: 2022/04/01 15:05:59 by hyoshie          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ OBJDIR		=	./obj
 
 VPATH		=	src
 
-SRCS		=	main.c
+SRCS		=	main.c\
+				debug.c
 
 OBJS		=	$(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 

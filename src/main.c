@@ -6,13 +6,12 @@
 /*   By: hyoshie <hyoshie@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:42:48 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/01 14:34:38 by hyoshie          ###   ########.fr       */
+/*   Updated: 2022/04/01 15:06:59 by hyoshie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/hotrace.h"
 #include "../libft/mylibft.h"
-
 
 void	read_stdin(t_list **kvl_lines, t_list **key_to_search)
 {
@@ -30,12 +29,42 @@ void	read_stdin(t_list **kvl_lines, t_list **key_to_search)
 	}
 }
 
-void	print_list(t_list *begin)
+t_dict	*store_kvl(t_list *kvl_lines)
 {
-	while (begin != NULL)
+	t_dict	*kvl_dammy;
+	t_dict	*new;
+
+	if (kvl_lines == NULL || kvl_lines->next == NULL)
+		return (NULL);
+	kvl_dammy = dict_new(NULL, NULL);
+	while (kvl_lines != NULL && kvl_lines->next != NULL)
 	{
-		ft_putendl_fd((char *)begin->content, 1);
-		begin  = begin->next;
+		new = dict_new(kvl_lines->content, kvl_lines->next->content);
+		dict_addback(kvl_dammy, new);
+		kvl_lines = kvl_lines->next->next;
+	}
+	return (kvl_dammy);
+}
+
+void	print_value(t_dict *kvl_dammy, t_list *key_to_search)
+{
+	char	*target_value;
+
+	if (kvl_dammy == NULL || key_to_search == NULL)
+		return ;
+	while (key_to_search != NULL)
+	{
+		target_value = dict_get_value(key_to_search->content, kvl_dammy);
+		if (target_value != NULL)
+		{
+			ft_putendl_fd(target_value, STDOUT_FILENO);
+		}
+		else
+		{
+			ft_putstr_fd(key_to_search->content, STDOUT_FILENO);//STDERR_FILENO?
+			ft_putendl_fd(": Not found.", STDOUT_FILENO);//STDERR_FILENO?
+		}
+		key_to_search = key_to_search->next;
 	}
 }
 
@@ -43,13 +72,11 @@ int	main(void)
 {
 	t_list	*kvl_lines;
 	t_list	*key_to_search;
-	// t_dict	*kvl;
+	t_dict	*kvl_dammy;
 
 	read_stdin(&kvl_lines, &key_to_search);
-	// kvl = store_kvl(key_to_search);
-	// print_value(kvl, key_to_search);
-	ft_putendl_fd("Hello!!", 1);
-	print_list(kvl_lines);
-	print_list(key_to_search);
+	kvl_dammy = store_kvl(kvl_lines);
+	print_value(kvl_dammy, key_to_search);
+	// print_dict(kvl_dammy);
 	return (0);
 }
