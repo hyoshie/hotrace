@@ -6,7 +6,7 @@
 #    By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/23 23:37:22 by hyoshie           #+#    #+#              #
-#    Updated: 2022/04/01 15:09:13 by hyoshie          ###   ########.fr        #
+#    Updated: 2022/04/02 10:30:37 by hyoshie          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,12 +17,15 @@ INCLUDES	=	-I./inc -I./libft
 LIBFT_DIR	=	libft
 OBJDIR		=	./obj
 
-VPATH		=	src
+VPATH		=	src:src/list:src/hash
 
-SRCS		=	main.c\
+SRCS_LIST	=	main_list.c\
 				debug.c
 
-OBJS		=	$(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
+SRCS_HASH	=	main_hash.c
+
+OBJS_LIST	=	$(addprefix $(OBJDIR)/, $(notdir $(SRCS_LIST:.c=.o)))
+OBJS_HASH	=	$(addprefix $(OBJDIR)/, $(notdir $(SRCS_HASH:.c=.o)))
 
 DEPS		=	$(OBJS:.o=.d)
 
@@ -35,15 +38,19 @@ $(OBJDIR)/%.o: %.c
 
 all: $(OBJDIR) $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS_LIST)
 	$(MAKE) -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS) 
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS_LIST) $(LIBS) 
+
+hash: $(OBJS_HASH)
+	$(MAKE) -C $(LIBFT_DIR)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS_HASH) $(LIBS) 
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
 
 clean:
-	$(RM) $(OBJS) $(DEPS)
+	$(RM) $(OBJS_LIST) $(OBJS_HASH) $(DEPS)
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
