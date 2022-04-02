@@ -6,7 +6,7 @@
 #    By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/23 23:37:22 by hyoshie           #+#    #+#              #
-#    Updated: 2022/04/02 10:30:37 by hyoshie          ###   ########.fr        #
+#    Updated: 2022/04/02 16:58:14 by hyoshie          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,18 @@ VPATH		=	src:src/list:src/hash
 SRCS_LIST	=	main_list.c\
 				debug.c
 
-SRCS_HASH	=	main_hash.c
+SRCS_HASH	=	main_hash.c\
+				cell_clear.c\
+				cell_delone.c\
+				cell_new.c\
+				hash_create_table.c\
+				hash_delete.c\
+				hash_delete_table.c\
+				hash_func.c\
+				hash_insert.c\
+				hash_is_empty.c\
+				hash_length.c\
+				hash_search.c
 
 OBJS_LIST	=	$(addprefix $(OBJDIR)/, $(notdir $(SRCS_LIST:.c=.o)))
 OBJS_HASH	=	$(addprefix $(OBJDIR)/, $(notdir $(SRCS_HASH:.c=.o)))
@@ -38,13 +49,17 @@ $(OBJDIR)/%.o: %.c
 
 all: $(OBJDIR) $(NAME)
 
-$(NAME): $(OBJS_LIST)
+$(NAME): $(OBJS_HASH)
 	$(MAKE) -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS_LIST) $(LIBS) 
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS_HASH) $(LIBS) 
+
+list: $(OBJS_LIST)
+	$(MAKE) -C $(LIBFT_DIR)
+	$(CC) $(CFLAGS) -o hr_list $(OBJS_LIST) $(LIBS) 
 
 hash: $(OBJS_HASH)
 	$(MAKE) -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS_HASH) $(LIBS) 
+	$(CC) $(CFLAGS) -o hr_hash $(OBJS_HASH) $(LIBS) 
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
