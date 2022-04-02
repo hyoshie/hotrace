@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:42:48 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/01 19:06:29 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/04/02 17:13:59 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,22 @@ static int	status_with_errout(char *errmsg, const int status)
 	return (status);
 }
 
+static void	clear_htable(t_dict **htable, const size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < size)
+	{
+		dict_clear(htable[i]);
+		i++;
+	}
+	free(htable);
+}
+
 static t_dict	**init_htable(void)
 {
-	size_t 	i;
+	size_t	i;
 	t_dict	**htable;
 
 	htable = (t_dict **)malloc(sizeof(t_dict *) * HTABLE_SIZE);
@@ -29,37 +42,30 @@ static t_dict	**init_htable(void)
 	i = 0;
 	while (i < HTABLE_SIZE)
 	{
-		htable[i] = NULL;
+		htable[i] = dict_new(NULL, NULL);
+		if (htable[i] == NULL)
+		{
+			clear_htable(htable, i);
+			return (NULL);
+		}
 		i++;
 	}
 	return (htable);
 }
 
-static void	clear_htable(t_dict **htable)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < HTABLE_SIZE)
-	{
-		dict_clear(htable[i]);
-		i++;
-	}
-}
-
 int	main(void)
 {
-	t_dict	**htable;
+	t_dict		**htable;
+	t_status	status;
 
 	htable = init_htable();
 	if (htable == NULL)
 		return (status_with_errout(strerror(errno), 1));
-	if (store_htable_step(htable) == ERROR
-		|| search_htable_step(htable) == ERROR)
-	{
-		clear_htable(htable);
+	status = store_htable_step(htable);
+	if (status == SUCCESS)
+		status = search_htable_step(htable);
+	clear_htable(htable, HTABLE_SIZE);
+	if (status == ERROR)
 		return (status_with_errout(strerror(errno), 1));
-	}
-	clear_htable(htable);
 	return (0);
 }

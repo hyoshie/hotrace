@@ -77,6 +77,6 @@ static int	check_strs(ssize_t cnt, char **line, char **left, char *buf)
 	else if (cnt > 0 || *left || gnl_strlen(*line) > 0)
 		ret = 1;
 	else
-		free(*line);
+		free_set(line, NULL);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:46:37 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/01 19:02:01 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/04/02 16:27:02 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 typedef enum e_statuss
 {
 	SUCCESS	= 0,
-	ERROR	= 1
+	ERROR	= 1,
+	EXIT	= 2
 }			t_status;
 
 t_status	store_htable_step(t_dict **htable);
