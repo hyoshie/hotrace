@@ -6,7 +6,7 @@
 /*   By: hyoshie <hyoshie@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:42:48 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/02 16:55:01 by hyoshie          ###   ########.fr       */
+/*   Updated: 2022/04/02 18:02:55 by hyoshie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	search_and_print(t_hash_table *ht)
 	}
 }
 
-#define HASH_TABLE_SIZE 1024
+#define HASH_TABLE_SIZE 1000000
 
 int	main(void)
 {

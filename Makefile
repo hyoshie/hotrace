@@ -6,12 +6,13 @@
 #    By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/23 23:37:22 by hyoshie           #+#    #+#              #
-#    Updated: 2022/04/02 16:58:14 by hyoshie          ###   ########.fr        #
+#    Updated: 2022/04/02 18:09:04 by hyoshie          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	hotrace
-CFLAGS		=	-Wall -Wextra -Werror
+CC			=	gcc
+CFLAGS		=	-Wall -Wextra -Werror -pg
 INCLUDES	=	-I./inc -I./libft
 
 LIBFT_DIR	=	libft
