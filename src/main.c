@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:42:48 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/02 17:13:59 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/04/02 17:29:43 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ int	main(void)
 	htable = init_htable();
 	if (htable == NULL)
 		return (status_with_errout(strerror(errno), 1));
-	status = store_htable_step(htable);
+	status = store_htable(htable);
 	if (status == SUCCESS)
-		status = search_htable_step(htable);
+		status = search_htable(htable);
 	clear_htable(htable, HTABLE_SIZE);
 	if (status == ERROR)
 		return (status_with_errout(strerror(errno), 1));

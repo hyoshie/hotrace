@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:23:50 by mkamei            #+#    #+#             */
-/*   Updated: 2022/04/02 16:26:51 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/04/02 17:30:00 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	hash_search(t_dict **htable, char *key)
 		ft_putendl_fd(hit_dict->value, STDOUT_FILENO);
 }
 
-t_status	search_htable_step(t_dict **htable)
+t_status	search_htable(t_dict **htable)
 {
 	char	*key;
 	int		gnl_status;

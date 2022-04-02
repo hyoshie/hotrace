@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:10:09 by mkamei            #+#    #+#             */
-/*   Updated: 2022/04/02 17:15:41 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/04/02 17:30:05 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static t_status	hash_add(t_dict **htable, char *key, char *value)
 	return (SUCCESS);
 }
 
-t_status	store_htable_step(t_dict **htable)
+t_status	store_htable(t_dict **htable)
 {
 	char	*line;
 	char	*key;
