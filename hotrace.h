@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 12:46:37 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/03 13:42:45 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/04/03 18:26:04 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define HOTRACE_H
 
 # include "dict.h"
-# include "get_next_line.h"
+# include "get_next_line2.h"
 # include "utils.h"
 # include <unistd.h>
 # include <errno.h>
