@@ -6,7 +6,7 @@
 /*   By: hyoshie <hyoshie@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 09:06:07 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/03 16:41:57 by user42           ###   ########.fr       */
+/*   Updated: 2022/04/03 16:51:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	gnl_strlen(const char *str)
 {
 	size_t	cnt;
 
+	if (str == NULL)
+		return (0);
 	cnt = 0;
 	while (*str++)
 		cnt++;
@@ -37,12 +39,10 @@ char	*gnl_strdup(const char *s1, size_t len)
 	return (str);
 }
 
-char	*gnl_strjoin(char const *s1, char const *s2)
+char	*gnl_strjoin(char const *s1, char const *s2, size_t len)
 {
 	char	*str;
-	size_t	s1_len;
-	size_t	s2_len;
-	size_t	idx;
+	char	*itr;
 
 	if (s1 &&!s2)
 		return (gnl_strdup(s1, gnl_strlen(s1)));
@@ -50,17 +50,15 @@ char	*gnl_strjoin(char const *s1, char const *s2)
 		return (gnl_strdup(s2, gnl_strlen(s2)));
 	if (!s1 && !s2)
 		return (gnl_strdup("", 0));
-	s1_len = gnl_strlen(s1);
-	s2_len = gnl_strlen(s2);
-	str = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
+	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (NULL);
-	idx = 0;
-	while (s1_len--)
-		str[idx++] = *s1++;
-	while (s2_len--)
-		str[idx++] = *s2++;
-	str[idx] = '\0';
+	itr = str;
+	while (*s1)
+		*itr++ = *s1++;
+	while (*s2)
+		*itr++ = *s2++;
+	*itr = '\0';
 	return (str);
 }
 

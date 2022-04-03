@@ -6,7 +6,7 @@
 /*   By: hyoshie <hyoshie@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 09:06:03 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/03 16:41:27 by user42           ###   ########.fr       */
+/*   Updated: 2022/04/03 16:55:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,19 @@ int	get_next_line(int fd, char **line)
 	char		*buf;
 	char		*nlptr;
 	ssize_t		cnt;
+	size_t		line_len;
 
 	*line = left;
 	left = NULL;
 	buf = (char *)malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
 	if (!buf)
 		return (reset_for_error(line, &left, buf));
+	line_len = gnl_strlen(*line);
 	while (set_return_ssize_t(&cnt, read(fd, buf, BUFFER_SIZE)) >= 0)
 	{
+		line_len += cnt;
 		buf[cnt] = '\0';
-		free_set(line, gnl_strjoin(*line, buf));
+		free_set(line, gnl_strjoin(*line, buf, line_len));
 		if (*line && set_return_str(&nlptr, gnl_strchr(*line, '\n')))
 		{
 			*nlptr = '\0';

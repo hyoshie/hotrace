@@ -6,7 +6,7 @@
 /*   By: hyoshie <hyoshie@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 09:09:39 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/03 16:42:14 by user42           ###   ########.fr       */
+/*   Updated: 2022/04/03 16:48:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 size_t	gnl_strlen(const char *str);
 char	*gnl_strdup(const char *s1, size_t len);
-char	*gnl_strjoin(char const *s1, char const *s2);
+char	*gnl_strjoin(char const *s1, char const *s2, size_t len);
 char	*gnl_strchr(const char *str, int c);
 void	*free_set(char **ptr1, char *ptr2);
 int		get_next_line(int fd, char **line);
