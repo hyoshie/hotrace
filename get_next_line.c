@@ -6,63 +6,17 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 16:48:13 by mkamei            #+#    #+#             */
-/*   Updated: 2022/04/03 18:26:57 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/04/03 19:05:04 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line2.h"
+#include "get_next_line.h"
 
-size_t	get_line_len(t_llst *head)
+static int	status_with_clear(t_llst *llst, char *str, const int status)
 {
-	t_llst	*current;
-	size_t	sum;
-
-	current = head->next;
-	sum = 0;
-	while (current != llst_last(head))
-	{
-		sum += current->len;
-		current = current->next;
-	}
-	return (sum);
-}
-
-size_t	get_last_valid_buf_len(t_llst *head, char *nl_ptr)
-{
-	if (nl_ptr)
-		return (nl_ptr - llst_last(head)->buf);
-	else
-		return (llst_last(head)->len);
-}
-
-static int split_line(char **line, t_llst *head, char *nl_ptr)
-{
-	const size_t	sum = get_line_len(head);
-	const size_t	last_buf_len = get_last_valid_buf_len(head, nl_ptr);
-	t_llst			*current;
-	int				line_i;
-
-	*line = (char *)malloc(sum + last_buf_len + 1);
-	if (*line == NULL)
-		return (-1);
-	current = head->next;
-	line_i = 0;
-	while (current != llst_last(head))
-	{
-		my_strlcpy(&(*line)[line_i], current->buf, current->len + 1);
-		line_i += current->len;
-		llst_delone(current);
-		current = current->next;
-	}
-	my_strlcpy(&(*line)[line_i], llst_last(head)->buf, last_buf_len + 1);
-	if (nl_ptr)
-	{
-		llst_last(head)->len = llst_last(head)->len - last_buf_len - 1;
-		my_strlcpy(llst_last(head)->buf, nl_ptr + 1, llst_last(head)->len + 1);
-	}
-	else
-		llst_clear(head);
-	return (1);
+	llst_clear(llst);
+	free(str);
+	return (status);
 }
 
 static int	read_until_include_nl(int fd, t_llst *head, char **nl_ptr)
@@ -88,7 +42,7 @@ static int	read_until_include_nl(int fd, t_llst *head, char **nl_ptr)
 	free(new_llst);
 	return (readsize);
 }
-#include <stdio.h>
+
 int	get_next_line(int fd, char **line)
 {
 	static t_llst	*llst;

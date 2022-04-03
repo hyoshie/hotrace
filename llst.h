@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 17:22:59 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/03 18:16:47 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/04/03 18:58:51 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 
-// # define BUFFER_SIZE 1025
-# define BUFFER_SIZE 6
+# define BUFFER_SIZE 1025
 
 typedef struct s_llst
 {
