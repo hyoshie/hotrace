@@ -1,2 +1,0 @@
-# hotrace
-learning searching algorithm
