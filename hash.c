@@ -6,11 +6,12 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:20:33 by mkamei            #+#    #+#             */
-/*   Updated: 2022/04/03 13:26:52 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/04/03 14:30:13 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hotrace.h"
+#include <stdint.h>
 
 size_t	hash_func(const char *s)
 {
