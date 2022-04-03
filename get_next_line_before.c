@@ -6,30 +6,28 @@
 /*   By: hyoshie <hyoshie@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 09:06:03 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/03 16:55:43 by user42           ###   ########.fr       */
+/*   Updated: 2022/04/03 17:18:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 static ssize_t	set_return_ssize_t(ssize_t *cnt, ssize_t read);
 static char		*set_return_str(char **str1, char *str2);
-static int		reset_for_error(char **line, char **left, char *buf);
-static int		check_strs(ssize_t cnt, char **line, char **left, char *buf);
+static int		reset_for_error(char **line, char **left);
+static int		check_strs(ssize_t cnt, char **line, char **left);
 
 int	get_next_line(int fd, char **line)
 {
 	static char	*left;
-	char		*buf;
+	char		buf[BUFFER_SIZE + 1];
 	char		*nlptr;
 	ssize_t		cnt;
 	size_t		line_len;
 
 	*line = left;
 	left = NULL;
-	buf = (char *)malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
-	if (!buf)
-		return (reset_for_error(line, &left, buf));
 	line_len = gnl_strlen(*line);
 	while (set_return_ssize_t(&cnt, read(fd, buf, BUFFER_SIZE)) >= 0)
 	{
@@ -39,14 +37,14 @@ int	get_next_line(int fd, char **line)
 		if (*line && set_return_str(&nlptr, gnl_strchr(*line, '\n')))
 		{
 			*nlptr = '\0';
-			left = gnl_strdup(nlptr + 1, gnl_strlen(nlptr + 1));
+			left = gnl_strdup(nlptr + 1, line_len - (nlptr - *line));
 			free_set(line, gnl_strdup(*line, nlptr - *line));
-			return (check_strs(cnt, line, &left, buf));
+			return (check_strs(cnt, line, &left));
 		}
 		if (!*line || cnt == 0)
-			return (check_strs(cnt, line, &left, buf));
+			return (check_strs(cnt, line, &left));
 	}
-	return (reset_for_error(line, &left, buf));
+	return (reset_for_error(line, &left));
 }
 
 static ssize_t	set_return_ssize_t(ssize_t *cnt, ssize_t read)
@@ -61,22 +59,20 @@ static char	*set_return_str(char **str1, char *str2)
 	return (*str1);
 }
 
-static int	reset_for_error(char **line, char **left, char *buf)
+static int	reset_for_error(char **line, char **left)
 {
 	free_set(line, NULL);
 	free_set(left, NULL);
-	free_set(&buf, NULL);
 	return (-1);
 }
 
-static int	check_strs(ssize_t cnt, char **line, char **left, char *buf)
+static int	check_strs(ssize_t cnt, char **line, char **left)
 {
 	int	ret;
 
-	free_set(&buf, NULL);
 	ret = cnt;
 	if (!*line)
-		ret = reset_for_error(line, left, buf);
+		ret = reset_for_error(line, left);
 	else if (cnt > 0 || *left || gnl_strlen(*line) > 0)
 		ret = 1;
 	else
