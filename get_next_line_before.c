@@ -6,7 +6,7 @@
 /*   By: hyoshie <hyoshie@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 09:06:03 by hyoshie           #+#    #+#             */
-/*   Updated: 2022/04/03 17:18:36 by user42           ###   ########.fr       */
+/*   Updated: 2022/04/03 17:23:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	check_strs(ssize_t cnt, char **line, char **left)
 	ret = cnt;
 	if (!*line)
 		ret = reset_for_error(line, left);
-	else if (cnt > 0 || *left || gnl_strlen(*line) > 0)
+	else if (cnt > 0 || *left || **line != '\0')
 		ret = 1;
 	else
 		free_set(line, NULL);
