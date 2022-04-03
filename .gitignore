@@ -52,3 +52,11 @@ dkms.conf
 
 # Excutefile
 hotrace
+
+.vscode
+
+# Test files
+gen.py
+gen_htr_input.sh
+test.txt
+input
