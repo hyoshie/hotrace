@@ -6,7 +6,7 @@
 /*   By: hyoshie <hyoshie@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 09:06:03 by hyoshie           #+#    #+#             */
-/*   Updated: 2021/09/23 09:06:03 by hyoshie          ###   ########.fr       */
+/*   Updated: 2022/04/03 16:41:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	get_next_line(int fd, char **line)
 		if (*line && set_return_str(&nlptr, gnl_strchr(*line, '\n')))
 		{
 			*nlptr = '\0';
-			left = gnl_strdup(nlptr + 1);
-			free_set(line, gnl_strdup(*line));
+			left = gnl_strdup(nlptr + 1, gnl_strlen(nlptr + 1));
+			free_set(line, gnl_strdup(*line, nlptr - *line));
 			return (check_strs(cnt, line, &left, buf));
 		}
 		if (!*line || cnt == 0)

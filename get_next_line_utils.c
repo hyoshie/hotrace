@@ -6,7 +6,7 @@
 /*   By: hyoshie <hyoshie@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 09:06:07 by hyoshie           #+#    #+#             */
-/*   Updated: 2021/09/23 09:06:07 by hyoshie          ###   ########.fr       */
+/*   Updated: 2022/04/03 16:41:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,11 @@ size_t	gnl_strlen(const char *str)
 	return (cnt);
 }
 
-char	*gnl_strdup(const char *s1)
+char	*gnl_strdup(const char *s1, size_t len)
 {
 	char	*str;
-	size_t	len;
 	size_t	idx;
 
-	len = gnl_strlen(s1);
 	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (str == NULL)
 		return (NULL);
@@ -47,11 +45,11 @@ char	*gnl_strjoin(char const *s1, char const *s2)
 	size_t	idx;
 
 	if (s1 &&!s2)
-		return (gnl_strdup(s1));
+		return (gnl_strdup(s1, gnl_strlen(s1)));
 	if (!s1 && s2)
-		return (gnl_strdup(s2));
+		return (gnl_strdup(s2, gnl_strlen(s2)));
 	if (!s1 && !s2)
-		return (gnl_strdup(""));
+		return (gnl_strdup("", 0));
 	s1_len = gnl_strlen(s1);
 	s2_len = gnl_strlen(s2);
 	str = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
