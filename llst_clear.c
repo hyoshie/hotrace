@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash.c                                             :+:      :+:    :+:   */
+/*   llst_clear.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 17:20:33 by mkamei            #+#    #+#             */
-/*   Updated: 2022/04/03 14:30:13 by mkamei           ###   ########.fr       */
+/*   Created: 2021/12/22 00:57:44 by yshimazu          #+#    #+#             */
+/*   Updated: 2022/04/03 16:43:42 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hotrace.h"
-#include <stdint.h>
+#include "llst.h"
 
-size_t	hash_func(const char *s)
+void	llst_clear(t_llst *head)
 {
-	static const uint64_t	offset = 14695981039346656037UL;
-	static const uint64_t	prime = 1099511628211UL;
-	uint64_t				hash;
-	uint8_t					byte;
+	t_llst	*p;
 
-	hash = offset;
-	while (*s)
+	p = head->next;
+	while (p != head)
 	{
-		byte = *s;
-		hash ^= byte;
-		hash *= prime;
-		s++;
+		p = p->next;
+		free(p->prev);
 	}
-	return (hash % HTABLE_SIZE);
+	free (head);
 }

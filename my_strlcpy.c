@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash.c                                             :+:      :+:    :+:   */
+/*   my_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 17:20:33 by mkamei            #+#    #+#             */
-/*   Updated: 2022/04/03 14:30:13 by mkamei           ###   ########.fr       */
+/*   Created: 2020/10/06 17:12:00 by mkamei            #+#    #+#             */
+/*   Updated: 2022/04/03 19:01:41 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hotrace.h"
-#include <stdint.h>
+#include <stddef.h>
 
-size_t	hash_func(const char *s)
+void	my_strlcpy(char *dst, const char *src, size_t size)
 {
-	static const uint64_t	offset = 14695981039346656037UL;
-	static const uint64_t	prime = 1099511628211UL;
-	uint64_t				hash;
-	uint8_t					byte;
+	size_t	i;
 
-	hash = offset;
-	while (*s)
+	if (size == 0)
+		return ;
+	i = 0;
+	while (src[i] && i < (size - 1))
 	{
-		byte = *s;
-		hash ^= byte;
-		hash *= prime;
-		s++;
+		dst[i] = src[i];
+		i++;
 	}
-	return (hash % HTABLE_SIZE);
+	dst[i] = '\0';
 }

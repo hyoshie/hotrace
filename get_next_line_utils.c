@@ -3,90 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyoshie <hyoshie@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/23 09:06:07 by hyoshie           #+#    #+#             */
-/*   Updated: 2021/09/23 09:06:07 by hyoshie          ###   ########.fr       */
+/*   Created: 2022/04/03 11:51:52 by mkamei            #+#    #+#             */
+/*   Updated: 2022/04/03 19:08:23 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	gnl_strlen(const char *str)
+static size_t	get_line_len(t_llst *head)
 {
-	size_t	cnt;
+	t_llst	*current;
+	size_t	sum;
 
-	cnt = 0;
-	while (*str++)
-		cnt++;
-	return (cnt);
-}
-
-char	*gnl_strdup(const char *s1)
-{
-	char	*str;
-	size_t	len;
-	size_t	idx;
-
-	len = gnl_strlen(s1);
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (str == NULL)
-		return (NULL);
-	idx = 0;
-	while (len--)
-		str[idx++] = *s1++;
-	str[idx] = '\0';
-	return (str);
-}
-
-char	*gnl_strjoin(char const *s1, char const *s2)
-{
-	char	*str;
-	size_t	s1_len;
-	size_t	s2_len;
-	size_t	idx;
-
-	if (s1 &&!s2)
-		return (gnl_strdup(s1));
-	if (!s1 && s2)
-		return (gnl_strdup(s2));
-	if (!s1 && !s2)
-		return (gnl_strdup(""));
-	s1_len = gnl_strlen(s1);
-	s2_len = gnl_strlen(s2);
-	str = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
-	if (!str)
-		return (NULL);
-	idx = 0;
-	while (s1_len--)
-		str[idx++] = *s1++;
-	while (s2_len--)
-		str[idx++] = *s2++;
-	str[idx] = '\0';
-	return (str);
-}
-
-char	*gnl_strchr(const char *str, int c)
-{
-	char	c_char;
-
-	if (!str)
-		return (NULL);
-	c_char = (char)c;
-	while (*str)
+	current = head->next;
+	sum = 0;
+	while (current != llst_last(head))
 	{
-		if (*str == c_char)
-			return ((char *)str);
-		str++;
+		sum += current->len;
+		current = current->next;
 	}
-	if (c_char == '\0')
-		return ((char *)str);
-	return (NULL);
+	return (sum);
 }
 
-void	*free_set(char **ptr1, char *ptr2)
+static size_t	get_last_valid_buf_len(t_llst *head, char *nl_ptr)
 {
-	free(*ptr1);
-	*ptr1 = ptr2;
-	return (ptr2);
+	if (nl_ptr)
+		return (nl_ptr - llst_last(head)->buf);
+	else
+		return (llst_last(head)->len);
+}
+
+static void	copy_last_buf(t_llst *head, char *nl_ptr, const size_t last_buf_len)
+{
+	if (nl_ptr)
+	{
+		llst_last(head)->len = llst_last(head)->len - last_buf_len - 1;
+		my_strlcpy(llst_last(head)->buf, nl_ptr + 1, llst_last(head)->len + 1);
+	}
+	else
+		llst_clear(head);
+}
+
+int	split_line(char **line, t_llst *head, char *nl_ptr)
+{
+	const size_t	sum = get_line_len(head);
+	const size_t	last_buf_len = get_last_valid_buf_len(head, nl_ptr);
+	t_llst			*current;
+	int				line_i;
+	t_llst			*tmp;
+
+	*line = (char *)malloc(sum + last_buf_len + 1);
+	if (*line == NULL)
+		return (-1);
+	current = head->next;
+	line_i = 0;
+	while (current != llst_last(head))
+	{
+		my_strlcpy(&(*line)[line_i], current->buf, current->len + 1);
+		line_i += current->len;
+		tmp = current;
+		current = current->next;
+		llst_delone(tmp);
+	}
+	my_strlcpy(&(*line)[line_i], llst_last(head)->buf, last_buf_len + 1);
+	copy_last_buf(head, nl_ptr, last_buf_len);
+	return (1);
 }

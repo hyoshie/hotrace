@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash.c                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 17:20:33 by mkamei            #+#    #+#             */
-/*   Updated: 2022/04/03 14:30:13 by mkamei           ###   ########.fr       */
+/*   Created: 2020/10/07 12:19:01 by mkamei            #+#    #+#             */
+/*   Updated: 2022/04/03 17:27:19 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hotrace.h"
-#include <stdint.h>
+// #include "libft.h"
+#include <stddef.h>
 
-size_t	hash_func(const char *s)
+char	*ft_strchr(const char *s, int c)
 {
-	static const uint64_t	offset = 14695981039346656037UL;
-	static const uint64_t	prime = 1099511628211UL;
-	uint64_t				hash;
-	uint8_t					byte;
+	int	i;
 
-	hash = offset;
-	while (*s)
+	i = 0;
+	while (s[i])
 	{
-		byte = *s;
-		hash ^= byte;
-		hash *= prime;
-		s++;
+		if (s[i] == (unsigned char)c)
+			return ((char *)&s[i]);
+		i++;
 	}
-	return (hash % HTABLE_SIZE);
+	if (s[i] == '\0' && c == '\0')
+		return ((char *)&s[i]);
+	return (NULL);
 }
